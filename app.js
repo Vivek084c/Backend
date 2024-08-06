@@ -47,18 +47,16 @@
 
 // console.log(currentOS)
 
-const {readFile, writeFile} = require('fs');
 
-readFile('./content/first.txt','utf8',(err, result)=>{
-    if(err){
-        console.log(err);
-        return;
-    }
-    console.log(result);
+import { createServer } from 'http'
 
+const server = createServer((req,res)=>{
+    res.write('welcome to our homepage')
+    res.end()
 })
 
-
+server.listen(5000)
+ 
 
 
 
