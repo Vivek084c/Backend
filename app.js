@@ -47,40 +47,13 @@
 
 // console.log(currentOS)
 
+const _ = require('loadsh')
+const item = [1,[2,[3,[4]]]]
+const newItem = _.flattenDeep(item);
+console.log(newItem)
 
-const http = require('http')
-
-const server = http.createServer((req,res)=>{
-    if(req.url == '/'){
-        res.end('welcome to our homepage, vivek')
-    }
-    if(req.url == '/a'){
-        res.end('welcome, here is the about section')
-    } 
-    res.end(
-        '<h1>OOOPSS...!</h1> <p> we can process the request</p> <a heref="/>back home</a>'
-    )
-    
-})
-
-server.listen(8888)
  
 
-// const http = require('http');
-
-// const server = http.createServer((req, res) => {
-//     if (req.url == '/') {
-//         res.end('welcome to our homepage, Vivek');
-//     } else if (req.url == '/a') {
-//         res.end('welcome, here is the about section');
-//     } else {
-//         res.end('<h1>OOOPSS...!</h1> <p>We cannot process the request</p> <a href="/">back home</a>);
-//     }
-// });
-
-// server.listen(8888, () => {
-//     console.log('Server is listening on port 8888');
-// });
 
 
 
