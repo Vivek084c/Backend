@@ -1,17 +1,31 @@
-var http = require('http')
-var fs = require('fs')
+const http = require('http')
 
-http 
-.createServer(function (req,res){
-    const text = fs.readFileSync('./content/big_.txt', 'utf8')
-    res.end(text)
+const server = http.createServer((req, res)=>{
+    // console.log(req.url)
+    // console.log(`user has hit the server`)
 
-    // const fileStream = fs.createReadStream('./content/big_.txt','utf8')
-    // fileStream.on('open', ()=>{
-    //     fileStream.pipe(res)
-    // })
-    // fileStream.on('error', (err)=>{
-    //     res.end(err)
-    // })
+    const url = req.url
+
+    // home page
+    if (url == '/'){
+        res.writeHead(200, {'content-type':'text/html'})
+        res.write('<h1>welcome to home page</h1>')
+        res.end()
+    } // about page
+    else if (url == '/about'){
+        res.writeHead(200, {'content-type':'text/html'})
+        res.write('<h1>welcome to about page</h1>')
+        res.end()
+    }// 404
+    else{
+        res.writeHead(404, {'content-type':'text/html'})
+        res.write('<h1>Error..!</h1>')
+        res.end()
+        
+    }
+       
+
+  
 })
-.listen(8888)
+
+server.listen(8888)
