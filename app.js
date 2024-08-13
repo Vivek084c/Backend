@@ -1,50 +1,20 @@
-const http = require('http')
+const express = require('express');
+const app = express();
+const path = require('path');
 
-const {readFileSync} = require('fs');
+//setup static and midleware
+app.use(express.static('./express_tutorials/public'))
 
-// get all the files
-const hopePage = readFileSync('./express_tutorials/navbar-app/index.html')
-const homeStyle = readFileSync('./express_tutorials/navbar-app/styles.css')
-const homeImage = readFileSync('./express_tutorials/navbar-app/logo.svg')
-const homeLogic = readFileSync('./express_tutorials/navbar-app/browser-app.js')
-
-const server = http.createServer((req, res)=>{
-    // console.log(req.url)
-    // console.log(`user has hit the server`)
-
-    const url = req.url
-    console.log(url)
-
-    // home page
-    if (url == '/'){
-        res.writeHead(200, {'content-type':'text/html'})
-        res.write(hopePage)
-        res.end()
-    } // styles
-    else if (url == '/styles.css'){
-        res.writeHead(200, {'content-type':'text/css'})
-        res.write(homeStyle)
-        res.end()
-    }// image file
-    else if (url == '/logo.svg'){
-        res.writeHead(200, {'content-type':'image/svg+xml'})
-        res.write(homeImage)
-        res.end()
-    }// logic
-    else if (url == '/browser-app.js'){
-        res.writeHead(200, {'content-type':'text/javascript'})
-        res.write(homeLogic)
-        res.end()
-    }// 404
-    else{
-        res.writeHead(404, {'content-type':'text/html'})
-        res.write('<h1>Error..!</h1>')
-        res.end()
-        
-    }
-       
-
-  
+app.get('/',(req, res)=>{
+res.sendFile(path.resolve(__dirname,'./express_tutorials/navbar-app/index.html'))
 })
 
-server.listen(8888)
+app.all('*', (req, res)=>{
+    res.status(404).send("resorces not found")
+})
+
+
+app.listen(8888, ()=>{
+    console.log(`server is listening at port 8888...`)
+})
+
