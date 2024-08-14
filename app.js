@@ -1,20 +1,37 @@
-const express = require('express');
-const app = express();
-const path = require('path');
+const express = require('express')
+const app = express()
 
-//setup static and midleware
-app.use(express.static('./express_tutorials/public'))
 
-app.get('/',(req, res)=>{
-res.sendFile(path.resolve(__dirname,'./express_tutorials/navbar-app/index.html'))
+const { products } = require('./express_tutorials/data.js')
+app.get('/', (req, res)=>{
+    // res.json(products)
+    res.send('<h1> Home Page </h1><a href="/api/products">products</a>')
 })
 
-app.all('*', (req, res)=>{
-    res.status(404).send("resorces not found")
+app.get('/api/products/:productID', (req, res)=>{
+
+    // //extracting a paticuls product
+    // const newProduct = products.map((product)=>{
+    //     const {id, name, image} = product;
+    //     return {id, name, image}
+    // })
+
+    //OR
+    // console.log(req);
+    // console.log(req.params);
+
+    const {productID} = req.params;
+    const singleProduct = products.find((product)=>product.id == Number(productID ))
+
+    if (!singleProduct){
+        return res.status(404).send('Product does not exist')
+    }
+
+    res.json(singleProduct)
 })
+
 
 
 app.listen(8888, ()=>{
-    console.log(`server is listening at port 8888...`)
+    console.log(`The server is listening on port 8888....`)
 })
-
