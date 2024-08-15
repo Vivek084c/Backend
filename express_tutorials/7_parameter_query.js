@@ -36,6 +36,34 @@ app.get('/api/products/:productID/reviews/:reviewID', (req, res)=>{
     res.end()
 })
 
+app.get('/api/v1/query', (req, res)=>{
+    const {search, limit} = req.query;
+    // console.log(req.query);
+    let sortedProcduct = [...products];
+
+
+    if (search){
+        sortedProcduct = sortedProcduct.filter((product)=>{
+            return product.name.startsWith(search)
+        })
+        // printing the search parameter
+        console.log(`the value of serach is : ${search}`)
+    }
+
+    if (limit){
+        sortedProcduct = sortedProcduct.slice(0,Number(limit))
+        // printing the limit parameter
+        console.log(`the limit valeu is : ${limit}`)
+    }
+
+    if (sortedProcduct.length < 1){
+        return res.status(200).json({success : true, data : []})   
+    }
+
+    res.status(200).json(sortedProcduct)
+
+})
+
 
 
 app.listen(8888, ()=>{
