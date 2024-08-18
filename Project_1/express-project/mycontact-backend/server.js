@@ -16,6 +16,9 @@ const port = process.env.PORT  || 8877;
 app.use(express.json())
 app.use('/api/contact', require('./routes/contactRoutes'))
 
+//endpoint to register the user
+app.use('/api/users', require('./routes/userRoutes'))
+
 // middelware to handle the error 
 app.use(errorHandler)
 
