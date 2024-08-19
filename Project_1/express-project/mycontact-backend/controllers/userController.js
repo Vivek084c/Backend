@@ -1,16 +1,17 @@
 const asyncHandler = require("express-async-handler")
 const User = require("../models/userModels");
 const userModels = require("../models/userModels");
+const bcrypt = require("bcrypt")
 
 //@desc Register a user
 //@route POST /api/users/register
 //@access public
 const registerUser = asyncHandler (async (req, res)=>{
     // getting the uesrname, email, password from the body 
-    const {usernmae, email, passowrd} = req.body;
-
+    console.log("dsafs")
+    const {username, email, password} = req.body;
     // checking if username or email or password is empty
-    if (!usernmae || !email || !passowrd){
+    if (!username || !email || !password){
         // sending 404 and error
         res.status(400);
         throw new Error("All fields are mandotory..!");
@@ -24,6 +25,26 @@ const registerUser = asyncHandler (async (req, res)=>{
         throw new Error("User already registerd!!")
     }
 
+    // creating a new user
+    // 1) creating a hash password
+    const hashedPassword  = await bcrypt.hash(password, 10);
+    // 2) creating a new user with the hashed password
+    const user = await User.create({
+        username,
+        email,
+        password : hashedPassword
+    });
+
+    console.log(`User created succeddfully ${user}`)
+
+    // sending the user data if the user is successfully created, not sending the passwrod
+    if (user){
+        res.status(201).json({_id : user._id, email : user.email})
+    }
+    else{
+        res.status(400);
+        throw new Error("User data was not valid")
+    }
     res.json({message : "Registered the user"});
     
 });
