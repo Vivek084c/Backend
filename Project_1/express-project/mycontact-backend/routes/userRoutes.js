@@ -14,6 +14,6 @@ app.post("/login", loginUser)
 app.get("/current", getUser)
 
 // route to handle the user authentaication and error handling 
-app.get("/current", validaToken, curent)
+app.get("/current", validaToken)
 
 module.exports = app

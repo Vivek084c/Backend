@@ -1,9 +1,11 @@
 const asyncHandler= require("express-async-handler");
 const jst = require("jsonwebtoken");
 
-const validaToken = asyncHandler(async((req, res, next)=>{
+const validaToken = asyncHandler ( async (req, res, next)=>{
     let token ;
     let authHeader = req.headers.Authorization || req.headers.authorization;
+
+    // checking the authentication from user and from databse
     if (authHeader && authHeader.startsWith("Bearer")){
         // getting the token from ther bearer 
         token = authHeader.split(" ")[1];
@@ -20,6 +22,6 @@ const validaToken = asyncHandler(async((req, res, next)=>{
 
         });
     } 
-}))
+})
 
-module.exports = validaToken
+module.exports = validaToken;
